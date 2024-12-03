@@ -2,7 +2,6 @@
 // Kenapa dipisah? Supaya tanggung jawabnya ter-isolate, dan functions-nya
 // reusable
 
-const prisma = require("../db");
 const {
   findProducts,
   findProductById,

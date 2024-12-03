@@ -2,7 +2,6 @@
 // Biasanya juga handle validasi body
 
 const express = require("express");
-const prisma = require("../db");
 
 const {
   getAllProducts,
@@ -14,12 +13,14 @@ const {
 
 const router = express.Router();
 
+// # get all products
 router.get("/", async (req, res) => {
   const products = await getAllProducts();
 
   res.send(products);
 });
 
+// get product by id
 router.get("/:id", async (req, res) => {
   try {
     const productId = parseInt(req.params.id);
@@ -31,6 +32,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// create product
 router.post("/", async (req, res) => {
   try {
     const newProductData = req.body;
@@ -46,6 +48,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// delete product
 router.delete("/:id", async (req, res) => {
   try {
     const productId = req.params.id; // string
@@ -58,6 +61,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// update product
 router.put("/:id", async (req, res) => {
   const productId = req.params.id;
   const productData = req.body;
