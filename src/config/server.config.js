@@ -1,9 +1,10 @@
-const express = require("express");
-require("dotenv").config();
-const productController = require("../product/product.controller");
+import express from "express";
+import './dotenv.config.js'
+import productController from "../product/product.controller.js";
+
 
 const app = express();
 app.use(express.json());
 app.use("/products", productController);
 
-module.exports = app
+export default app

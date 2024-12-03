@@ -1,30 +1,23 @@
 // Layer untuk handle request dan response
 // Biasanya juga handle validasi body
 
-const express = require("express");
+import express from "express";
+import productService from "./product.service.js";
 
-const {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  deleteProductById,
-  editProductById,
-} = require("./product.service");
 
 const router = express.Router();
-
-// # get all products
 router.get("/", async (req, res) => {
-  const products = await getAllProducts();
 
+  const products = await productService.getAllProducts();
   res.send(products);
+
 });
 
 // get product by id
 router.get("/:id", async (req, res) => {
   try {
     const productId = parseInt(req.params.id);
-    const product = await getProductById(parseInt(productId));
+    const product = await productService.getProductById(parseInt(productId));
 
     res.send(product);
   } catch (err) {
@@ -35,14 +28,15 @@ router.get("/:id", async (req, res) => {
 // create product
 router.post("/", async (req, res) => {
   try {
-    const newProductData = req.body;
 
-    const product = await createProduct(newProductData);
+    const newProductData = req.body;
+    const product = await productService.createProduct(newProductData);
 
     res.send({
       data: product,
       message: "create product success",
     });
+
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -51,11 +45,12 @@ router.post("/", async (req, res) => {
 // delete product
 router.delete("/:id", async (req, res) => {
   try {
+
     const productId = req.params.id; // string
-
-    await deleteProductById(parseInt(productId));
-
+    await productService.deleteProductById(parseInt(productId));
+    
     res.send("product deleted");
+
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -63,6 +58,7 @@ router.delete("/:id", async (req, res) => {
 
 // update product
 router.put("/:id", async (req, res) => {
+  
   const productId = req.params.id;
   const productData = req.body;
 
@@ -77,7 +73,7 @@ router.put("/:id", async (req, res) => {
     return res.status(400).send("Some fields are missing");
   }
 
-  const product = await editProductById(parseInt(productId), productData);
+  const product = await productService.editProductById(parseInt(productId), productData);
 
   res.send({
     data: product,
@@ -90,7 +86,7 @@ router.patch("/:id", async (req, res) => {
     const productId = req.params.id;
     const productData = req.body;
 
-    const product = await editProductById(parseInt(productId), productData);
+    const product = await productService.editProductById(parseInt(productId), productData);
 
     res.send({
       data: product,
@@ -101,4 +97,4 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router

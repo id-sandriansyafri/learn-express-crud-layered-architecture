@@ -2,22 +2,16 @@
 // Kenapa dipisah? Supaya tanggung jawabnya ter-isolate, dan functions-nya
 // reusable
 
-const {
-  findProducts,
-  findProductById,
-  insertProduct,
-  deleteProduct,
-  editProduct,
-} = require("./product.repository");
+import productRepository from "./product.repository.js";
 
 const getAllProducts = async () => {
-  const products = await findProducts();
+  const products = await productRepository.findProducts();
 
   return products;
 };
 
 const getProductById = async (id) => {
-  const product = await findProductById(id);
+  const product = await productRepository.findProductById(id);
 
   if (!product) {
     throw Error("Product not found");
@@ -27,29 +21,30 @@ const getProductById = async (id) => {
 };
 
 const createProduct = async (newProductData) => {
-  const product = await insertProduct(newProductData);
 
+  const product = await productRepository.insertProduct(newProductData);
   return product;
+
 };
 
 const deleteProductById = async (id) => {
-  await getProductById(id);
 
+  await getProductById(id);
   await deleteProduct(id);
+
 };
 
 const editProductById = async (id, productData) => {
+
   await getProductById(id);
-
-  const product = await editProduct(id, productData)
-
+  const product = await productRepository.editProduct(id, productData)
   return product;
 };
 
-module.exports = {
+export default {
   getAllProducts,
   getProductById,
   createProduct,
   deleteProductById,
-  editProductById,
+  editProductById
 };

@@ -2,11 +2,10 @@
 // Boleh pake ORM, boleh raw query
 // Supaya apa? Supaya kalo mau ganti2 ORM tinggal edit di file ini aja
 
-const prisma = require("../db");
-
+import { prisma } from "../db/index.js";
 const findProducts = async () => {
-  const products = await prisma.product.findMany();
 
+  const products = await prisma.product.findMany();
   return products;
 };
 
@@ -58,10 +57,12 @@ const editProduct = async (id, productData) => {
   return product;
 };
 
-module.exports = {
+export default {
   findProducts,
   findProductById,
   insertProduct,
   deleteProduct,
   editProduct,
 };
+
+
